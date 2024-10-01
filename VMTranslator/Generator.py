@@ -5,7 +5,7 @@ import Parser
 
 
 class Generator:
-    """No comment"""
+    """No com"""
 
     def __init__(self, file=None):
         """ Cette fonction va prendre un fichier non vide et le parser(transformer ce code en langage)"""

@@ -39,6 +39,8 @@ class Generator:
                     return self._commandpush(command)
                 case 'Call':
                     return self.commandcall(command)
+                case 'add':
+                    return self._commandadd(command)
                 case _:
                     print(f'SyntaxError : {command}')
                     exit()
@@ -66,6 +68,16 @@ class Generator:
         M=D
         @SP 
         M=M+1
+        """
+    def _commandadd(self, command):
+        return f"""
+        @SP
+        M=M-1 
+        A=M
+        D=M 
+        @SP
+        A=M-1
+        M=D+M
         """
 
     def _commandcall(self, command):

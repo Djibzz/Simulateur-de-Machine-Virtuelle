@@ -36,7 +36,8 @@ class Translator:
         init = Generator.Generator()._commandcall({'type': 'Call', 'function': 'Sys.init', 'parameter': '0'})
 
         return f"""// Bootstrap
-    @256
+    @5
+    // pas oublier de remettre a 256
     D=A
     @SP
     M=D

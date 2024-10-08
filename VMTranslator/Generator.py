@@ -59,7 +59,14 @@ class Generator:
         """No comment"""
         parameter = command['parameter']
         return f"""\t//{command['type']} {command['segment']} {parameter}
-    Code assembleur de {command}\n"""
+        @{parameter}
+        D=A 
+        @SP 
+        A=M 
+        M=D
+        @SP 
+        M=M+1
+        """
 
     def _commandcall(self, command):
         """No comment"""

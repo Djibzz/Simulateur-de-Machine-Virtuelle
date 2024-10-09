@@ -50,3 +50,33 @@ D=-1
 M=M-1
 A=M-1
 M=D
+
+//GT
+@SP
+M=M-1
+A=M
+D=M
+A=A-1
+D=M-D // ram(x)
+M=-1  //on met a true de  base
+@GT
+D;JGT // si le reste de x-y est superieur a 0 alors x>y et on skip le code
+@SP
+A=M-1
+M=0
+(GT)
+
+//LT
+@SP
+M=M-1
+A=M
+D=M
+A=A-1
+D=M-D
+M=-1
+@LT
+D;JLT// si le reste de x-y est inferieur a 0 alors x<y et on skip le code
+@SP
+A=M-1
+M=0
+(LT)

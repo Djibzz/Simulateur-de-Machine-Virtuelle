@@ -24,6 +24,6 @@ A=M
 D=M // d=3
 @SP
 A=M-1
-M=D-M
+M=M-D
 
 //

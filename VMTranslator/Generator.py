@@ -43,6 +43,8 @@ class Generator:
                     return self._commandadd(command)
                 case 'sub':
                     return self._commandsub(command)
+                case 'eq':
+                    return self._commandEQ(command)
                 case _:
                     print(f'SyntaxError : {command}')
                     exit()
@@ -90,6 +92,26 @@ class Generator:
         @SP
         A=M-1
         M=M-D
+        """
+    def _commandEQ(self,command):
+        return f"""" 
+        @SP
+        A=M-1
+        D=M
+        A=A-1
+        D=D-M
+        @IF
+        D;JEQ
+        D=0
+        @END
+        0;JMP
+        (IF)
+        D=-1
+        (END)
+        @SP
+        M=M-1
+        A=M-1
+        M=D
         """
 
     def _commandcall(self, command):

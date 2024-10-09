@@ -1,0 +1,5 @@
+push  constant 7
+push constant 2
+sub
+push constant 27
+push constant 8

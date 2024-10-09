@@ -80,3 +80,24 @@ D;JLT// si le reste de x-y est inferieur a 0 alors x<y et on skip le code
 A=M-1
 M=0
 (LT)
+
+//AND
+@SP
+M=M-1
+A=M
+D=M
+A=A-1
+M=M&&D
+
+//OR
+@SP
+M=M-1
+A=M
+D=M
+A=A-1
+M=M||D
+
+//NOT
+@SP
+A=M-1 // on décrémente pas car on change juste y en -y on ne l'enleve pas
+M=!M

@@ -151,6 +151,33 @@ class Generator:
         M=0
         (LT)
         """
+    def _commandAnd(self,command):
+        return f"""
+        //AND
+        @SP
+        M=M-1
+        A=M
+        D=M
+        A=A-1
+        M=M&&D
+        """
+    def _commandOr(self,command):
+        return f"""
+        //OR
+        @SP
+        M=M-1
+        A=M
+        D=M
+        A=A-1
+        M=M||D
+        """
+    def _commandNot(self,command):
+        return f"""
+        //NOT
+        @SP
+        A=M-1 // on décrémente pas car on change juste y en -y on ne l'enleve pas
+        M=!M
+        """
 
     def _commandcall(self, command):
         """No comment"""

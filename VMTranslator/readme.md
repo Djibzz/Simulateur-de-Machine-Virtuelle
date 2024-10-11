@@ -119,8 +119,31 @@ D=M
 D;JNE
 
 
+//pop local i
+@{parameter}
+D=A
+@LCL
+D=D+M
+@13
+M=D // ram(13)sert a stocker adrr
+@SP
+AM=M-1
+D=M
+@13
+A=M
+M=D // ram(adrr) =ram(sp)
+
 //push local i
 @{parameter}
 D=A
 @LCL
-D=D+M //adrr
+D=D+M
+@SP
+A=M
+A=M
+M=D
+@SP
+M=M+1
+
+seg={'THIS':'this','LOCAL':'local','ARG':'arg','THAT':'that'}
+

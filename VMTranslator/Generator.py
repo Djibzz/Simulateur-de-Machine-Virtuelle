@@ -2,6 +2,7 @@
 
 import sys
 import Parser
+import branchingcommand
 
 
 class Generator:
@@ -11,7 +12,7 @@ class Generator:
         """ Cette fonction va prendre un fichier non vide et le parser(transformer ce code en langage)"""
         if file is not None:
             self.parser = Parser.Parser(file)
-
+        self.branchingcommand = branchingcommand.BranchingCommand()
     def __iter__(self):
         return self
 
@@ -37,6 +38,8 @@ class Generator:
                 # Faire une fonction par type de commande
                 case 'push':
                     return self._commandpush(command)
+                case 'pop':
+                    return self._commandpop(command)
                 case 'Call':
                     return self.commandcall(command)
                 case 'add':
@@ -49,12 +52,12 @@ class Generator:
                     return self._commandGT(command)
                 case 'lt':
                     return self._commandLT(command)
-                case 'label':
-                    return self._commandlabel(command)
+                case'label':
+                    return self.branchingcommand.asm(command)
                 case 'goto':
-                    return self._commandgoto(command)
+                    return self.branchingcommand.asm(command)
                 case 'ifgoto':
-                    return self._commandifgoto(command)
+                    return self.branchingcommand.asm(command)
                 case _:
                     print(f'SyntaxError : {command}')
                     exit()
@@ -67,8 +70,16 @@ class Generator:
             # Faire une fonction par type de segment
             case 'constant':
                 return self._commandpushconstant(command)
+            case 'local':
+                return self._commandpushlocal(command)
+            case 'this':
+                return self._commandpushthis(command)
+            case 'that':
+                return self._commandpushthat(command)
+            case 'argument':
+                return self._commandpusharg(command)
             case _:
-                print(f'SyntaxError : {command}')
+                print(f'SyntaxError: Unknown segment {segment} in command: {command}')
                 exit()
 
     def _commandpushconstant(self, command):
@@ -82,6 +93,153 @@ class Generator:
         M=D
         @SP 
         M=M+1
+        """
+
+    def _commandpushlocal(self, command):
+        parameter = command['parameter']
+        return f"""
+        //\t//{command['type']} {command['segment']} {parameter}
+        @{parameter}
+        D=A
+        @LCL
+        D=D+M
+        @SP
+        A=M
+        A=M
+        M=D
+        @SP
+        M=M+1
+        """
+
+    def _commandpushthat(self, command):
+        parameter = command['parameter']
+        return f"""//\t//{command['type']} {command['segment']} {parameter}
+        @{parameter}
+        D=A
+        @THAT
+        D=D+M
+        @SP
+        A=M
+        A=M
+        M=D
+        @SP
+        M=M+1
+        """
+
+    def _commandpushthis(self, command):
+        parameter = command['parameter']
+        return f"""//\t//{command['type']} {command['segment']} {parameter}
+        @{parameter}
+        D=A
+        @THIS
+        D=D+M
+        @SP
+        A=M
+        A=M
+        M=D
+        @SP
+        M=M+1
+        """
+
+    def _commandpusharg(self, command):
+        parameter = command['parameter']
+        return f"""//\t//{command['type']} {command['segment']} {parameter}
+        @{parameter}
+        D=A
+        @ARG
+        D=D+M
+        @SP
+        A=M
+        A=M
+        M=D
+        @SP
+        M=M+1
+        """
+    def _commandpop(self, command):
+        """No comment"""
+        segment = command['segment']
+        # segment=local|argument|static|constant|this|that|pointer
+        match segment:
+            # Faire une fonction par type de segment
+            case 'local':
+                return self._commandpoplocal(command)
+            case 'this':
+                return self._commandpopthis(command)
+            case 'that':
+                return self._commandpopthat(command)
+            case 'argument':
+                return self._commandpoparg(command)
+            case _:
+                print(f'SyntaxError: Unknown segment {segment} in command: {command}')
+                exit()
+
+    def _commandpoplocal(self, command):
+        parameter = command['parameter']
+        return f"""
+        //\t//{command['type']} {command['segment']} {parameter}
+        @{parameter}
+        D=A
+        @LCL
+        D=D+M
+        @13
+        M=D // ram(13)sert a stocker adrr
+        @SP
+        AM=M-1
+        D=M
+        @13
+        A=M
+        M=D // ram(adrr) =ram(sp)
+        """
+    def _commandpopthis(self, command):
+        parameter = command['parameter']
+        return f"""
+        //\t//{command['type']} {command['segment']} {parameter}
+        @{parameter}
+        D=A
+        @THIS
+        D=D+M
+        @13
+        M=D // ram(13)sert a stocker adrr
+        @SP
+        AM=M-1
+        D=M
+        @13
+        A=M
+        M=D // ram(adrr) =ram(sp)
+        """
+    def _commandpopthat(self, command):
+        parameter = command['parameter']
+        return f"""
+        //\t//{command['type']} {command['segment']} {parameter}
+        @{parameter}
+        D=A
+        @THIS
+        D=D+M
+        @13
+        M=D // ram(13)sert a stocker adrr
+        @SP
+        AM=M-1
+        D=M
+        @13
+        A=M
+        M=D // ram(adrr) =ram(sp)
+        """
+    def _commandpoparg(self, command):
+        parameter = command['parameter']
+        return f"""
+        //\t//{command['type']} {command['segment']} {parameter}
+        @{parameter}
+        D=A
+        @ARG
+        D=D+M
+        @13
+        M=D // ram(13)sert a stocker adrr
+        @SP
+        AM=M-1
+        D=M
+        @13
+        A=M
+        M=D // ram(adrr) =ram(sp)
         """
     def _commandadd(self, command):
         return f""" // add

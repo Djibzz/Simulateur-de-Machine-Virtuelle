@@ -41,7 +41,6 @@ class Translator:
     D=A
     @SP
     M=D
-{init}
 """
 
 

@@ -1,4 +1,5 @@
 EXPlICATIONS DU CODE:
+
 // push constant i
 @{parameter}
 D=A 
@@ -101,3 +102,25 @@ M=M||D
 @SP
 A=M-1 // on décrémente pas car on change juste y en -y on ne l'enleve pas
 M=!M
+
+//label {command['label']}
+({command['label']})
+
+
+//goto {command['label']}
+@{command['label']}
+0;JMP
+
+//if goto
+@SP
+AM=M-1
+D=M
+@{command['label']}
+D;JNE
+
+
+//push local i
+@{parameter}
+D=A
+@LCL
+D=D+M //adrr

@@ -15,6 +15,10 @@ class pushcommand:
                  return self._commandpushthat(command)
             case 'argument':
                 return self._commandpusharg(command)
+            case 'temp':
+                return self._commandpushtemp(command)
+            case 'static':
+                return self._commandpushstatic(command)
             case _:
                 print(f'SyntaxError: Unknown segment {segment} in command: {command}')
                 exit()
@@ -97,6 +101,31 @@ class pushcommand:
             @SP
             A=M
             M=D
+            @SP
+            M=M+1
+            """
+    def _commandpushtemp(self, command):
+        parameter = command['parameter']
+        return f"""//\t//{command['type']} {command['segment']} {parameter}
+            @{parameter}
+            D=A
+            @5
+            D=D+M // addr = ram(5)+1
+            @SP
+            A=M
+            A=M
+            M=D
+            @SP
+            M=M+1
+            """
+    def _commandpushstatic(self, command):
+        parameter = command['parameter']
+        return f"""//\t//{command['type']} {command['segment']} {parameter}
+            @Foo.{parameter}
+            D=M
+            @SP
+            A=M // a= ram(sp)
+            M=D // ram(ram(sp))=foo.i
             @SP
             M=M+1
             """

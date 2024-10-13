@@ -156,5 +156,40 @@ M=D
 @SP
 M=M+1
 
-seg={'THIS':'this','LOCAL':'local','ARG':'arg','THAT':'that'}
 
+//push static i
+@Foo.{parameter}
+D=M
+@SP
+A=M // a= ram(sp)
+M=D // ram(ram(sp))=foo.i
+@SP
+M=M+1
+
+// pop static i
+@SP
+M=M-1
+A=M // a = ram(sp) avec sp--
+D=M  // D= ram(ram(sp))
+@Foo.{parameter}
+M=D // ram(Foo.i)= ram(ram(sp))
+
+
+
+//push temp i
+@{parameter}
+D=A
+@5
+D=D+M // addr = ram(5)+1
+@SP
+A=M
+A=M
+M=D
+@SP
+M=M+1
+
+//pop temp i
+@SP
+M=M-1
+A=M
+D=M

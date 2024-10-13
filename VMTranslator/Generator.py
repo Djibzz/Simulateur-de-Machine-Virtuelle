@@ -3,6 +3,8 @@
 import sys
 import Parser
 import branchingcommand
+import logiccommand
+import arithcommand
 
 
 class Generator:
@@ -13,6 +15,8 @@ class Generator:
         if file is not None:
             self.parser = Parser.Parser(file)
         self.branchingcommand = branchingcommand.BranchingCommand()
+        self.logiccommand = logiccommand.logiccommand()
+        self.arithcommand = arithcommand.arithcommand()
     def __iter__(self):
         return self
 
@@ -43,20 +47,26 @@ class Generator:
                 case 'Call':
                     return self.commandcall(command)
                 case 'add':
-                    return self._commandadd(command)
+                    return self.arithcommand.asm(command)
                 case 'sub':
-                    return self._commandsub(command)
+                    return self.arithcommand.asm(command)
                 case 'eq':
-                    return self._commandEQ(command)
+                    return self.arithcommand.asm(command)
                 case 'gt':
-                    return self._commandGT(command)
+                    return self.arithcommand.asm(command)
                 case 'lt':
-                    return self._commandLT(command)
+                    return self.arithcommand.asm(command)
+                case 'or':
+                    return self.logiccommand.asm(command)
+                case 'and':
+                    return self.logiccommand.asm(command)
+                case 'not':
+                    return self.logiccommand.asm(command)
                 case'label':
                     return self.branchingcommand.asm(command)
                 case 'goto':
                     return self.branchingcommand.asm(command)
-                case 'ifgoto':
+                case 'if-goto':
                     return self.branchingcommand.asm(command)
                 case _:
                     print(f'SyntaxError : {command}')
@@ -314,50 +324,6 @@ class Generator:
         A=M-1
         M=0
         (LT)
-        """
-    def _commandAnd(self,command):
-        return f"""
-        //AND
-        @SP
-        M=M-1
-        A=M
-        D=M
-        A=A-1
-        M=M&&D
-        """
-    def _commandOr(self,command):
-        return f"""
-        //OR
-        @SP
-        M=M-1
-        A=M
-        D=M
-        A=A-1
-        M=M||D
-        """
-    def _commandNot(self,command):
-        return f"""
-        //NOT
-        @SP
-        A=M-1 // on décrémente pas car on change juste y en -y on ne l'enleve pas
-        M=!M
-        """
-    def _commandlabel(self,command):
-        return f""" //label {command['label']}
-        ({command['label']})
-        """
-    def _commandgoto(self,command):
-        return f""" //goto {command['label']}
-        @{command['label']}
-        0;JMP
-        """
-    def _commandifgoto(self,command):
-        return f""" //if goto {command['label']}
-        @SP
-        AM=M-1
-        D=M
-        @{command['label']}
-        D;JNE
         """
 
     def _commandcall(self, command):

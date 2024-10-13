@@ -119,27 +119,38 @@ D=M
 D;JNE
 
 
-//pop local i
+//pop segment i
 @{parameter}
-D=A
-@LCL
-D=D+M
-@13
-M=D // ram(13)sert a stocker adrr
-@SP
-AM=M-1
-D=M
-@13
-A=M
-M=D // ram(adrr) =ram(sp)
+D=A 
+@{seg}
+        A=M
+        D=D+A
+        @{seg}
+        M=D
+        @SP
+        M=M-1
+        A=M
+        D=M
+        @{seg}
+        A=M
+        M=D
+        @{parameter}
+        D=A
+        @{seg}
+        A=M
+        D=A-D
+        @{seg}
+        M=D
 
-//push local i
+//push segment i
 @{parameter}
 D=A
 @LCL
-D=D+M
-@SP
 A=M
+D=D+A
+A=D
+D=M
+@SP
 A=M
 M=D
 @SP

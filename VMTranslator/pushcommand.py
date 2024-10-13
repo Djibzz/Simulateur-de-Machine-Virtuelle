@@ -40,9 +40,10 @@ class pushcommand:
             D=A
             @LCL
             A=M
-            D=D+M
+            D=D+A
+            A=D
+            D=M
             @SP
-            A=M
             A=M
             M=D
             @SP

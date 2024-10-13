@@ -38,7 +38,7 @@ class popcommand:
         @{seg}
         A=M
         M=D
-        @1
+        @{parameter}
         D=A
         @{seg}
         A=M
@@ -54,26 +54,26 @@ class popcommand:
         return f"""
                 //\t//{command['type']} {command['segment']} {parameter}
                 @{parameter}
-                D=A
-                @{seg}
-                A=M
-                D=D+A
-                @{seg}
-                M=D
-                @SP
-                M=M-1
-                A=M
-                D=M
-                @{seg}
-                A=M
-                M=D
-                @1
-                D=A
-                @{seg}
-                A=M
-                D=A-D
-                @{seg}
-                M=D
+            D=A
+            @{seg}
+            A=M
+            D=D+A
+            @{seg}
+            M=D
+            @SP
+            M=M-1
+            A=M
+            D=M
+            @{seg}
+            A=M
+            M=D
+            @{parameter}
+            D=A
+            @{seg}
+            A=M
+            D=A-D
+            @{seg}
+            M=D
                 """
     def _commandpopthat(self, command):
         parameter = command['parameter']
@@ -82,27 +82,27 @@ class popcommand:
         seg = dic[segment]
         return f"""
                 //\t//{command['type']} {command['segment']} {parameter}
-                @{parameter}
-                D=A
-                @{seg}
-                A=M
-                D=D+A
-                @{seg}
-                M=D
-                @SP
-                M=M-1
-                A=M
-                D=M
-                @{seg}
-                A=M
-                M=D
-                @1
-                D=A
-                @{seg}
-                A=M
-                D=A-D
-                @{seg}
-                M=D
+               @{parameter}
+        D=A
+        @{seg}
+        A=M
+        D=D+A
+        @{seg}
+        M=D
+        @SP
+        M=M-1
+        A=M
+        D=M
+        @{seg}
+        A=M
+        M=D
+        @{parameter}
+        D=A
+        @{seg}
+        A=M
+        D=A-D
+        @{seg}
+        M=D
                 """
     def _commandpoparg(self, command):
         parameter = command['parameter']
@@ -112,24 +112,24 @@ class popcommand:
         return f"""
                 //\t//{command['type']} {command['segment']} {parameter}
                 @{parameter}
-                D=A
-                @{seg}
-                A=M
-                D=D+A
-                @{seg}
-                M=D
-                @SP
-                M=M-1
-                A=M
-                D=M
-                @{seg}
-                A=M
-                M=D
-                @1
-                D=A
-                @{seg}
-                A=M
-                D=A-D
-                @{seg}
-                M=D
+        D=A
+        @{seg}
+        A=M
+        D=D+A
+        @{seg}
+        M=D
+        @SP
+        M=M-1
+        A=M
+        D=M
+        @{seg}
+        A=M
+        M=D
+        @{parameter}
+        D=A
+        @{seg}
+        A=M
+        D=A-D
+        @{seg}
+        M=D
                 """

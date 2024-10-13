@@ -19,69 +19,117 @@ class popcommand:
 
     def _commandpoplocal(self, command):
         parameter = command['parameter']
+        segment = command['segment']
+        dic ={'this':'THIS','local':'LCL','argument':'ARG','that':'THAT'}
+        seg=dic[segment]
         return f"""
         //\t//{command['type']} {command['segment']} {parameter}
         @{parameter}
         D=A
-        @LCL
-        D=D+M
-        @13
-        M=D // ram(13)sert a stocker adrr
-        @SP
-        AM=M-1
-        D=M
-        @13
+        @{seg}
         A=M
-        M=D // ram(adrr) =ram(sp)
+        D=D+A
+        @{seg}
+        M=D
+        @SP
+        M=M-1
+        A=M
+        D=M
+        @{seg}
+        A=M
+        M=D
+        @1
+        D=A
+        @{seg}
+        A=M
+        D=A-D
+        @{seg}
+        M=D
         """
     def _commandpopthis(self, command):
         parameter = command['parameter']
+        segment = command['segment']
+        dic = {'this': 'THIS', 'local': 'LCL', 'argument': 'ARG', 'that': 'THAT'}
+        seg = dic[segment]
         return f"""
-        //\t//{command['type']} {command['segment']} {parameter}
-        @{parameter}
-        D=A
-        @THIS
-        D=D+M
-        @13
-        M=D // ram(13)sert a stocker adrr
-        @SP
-        AM=M-1
-        D=M
-        @13
-        A=M
-        M=D // ram(adrr) =ram(sp)
-        """
+                //\t//{command['type']} {command['segment']} {parameter}
+                @{parameter}
+                D=A
+                @{seg}
+                A=M
+                D=D+A
+                @{seg}
+                M=D
+                @SP
+                M=M-1
+                A=M
+                D=M
+                @{seg}
+                A=M
+                M=D
+                @1
+                D=A
+                @{seg}
+                A=M
+                D=A-D
+                @{seg}
+                M=D
+                """
     def _commandpopthat(self, command):
         parameter = command['parameter']
+        segment = command['segment']
+        dic = {'this': 'THIS', 'local': 'LCL', 'argument': 'ARG', 'that': 'THAT'}
+        seg = dic[segment]
         return f"""
-        //\t//{command['type']} {command['segment']} {parameter}
-        @{parameter}
-        D=A
-        @THIS
-        D=D+M
-        @13
-        M=D // ram(13)sert a stocker adrr
-        @SP
-        AM=M-1
-        D=M
-        @13
-        A=M
-        M=D // ram(adrr) =ram(sp)
-        """
+                //\t//{command['type']} {command['segment']} {parameter}
+                @{parameter}
+                D=A
+                @{seg}
+                A=M
+                D=D+A
+                @{seg}
+                M=D
+                @SP
+                M=M-1
+                A=M
+                D=M
+                @{seg}
+                A=M
+                M=D
+                @1
+                D=A
+                @{seg}
+                A=M
+                D=A-D
+                @{seg}
+                M=D
+                """
     def _commandpoparg(self, command):
         parameter = command['parameter']
+        segment = command['segment']
+        dic = {'this': 'THIS', 'local': 'LCL', 'argument': 'ARG', 'that': 'THAT'}
+        seg = dic[segment]
         return f"""
-        //\t//{command['type']} {command['segment']} {parameter}
-        @{parameter}
-        D=A
-        @ARG
-        D=D+M
-        @13
-        M=D // ram(13)sert a stocker adrr
-        @SP
-        AM=M-1
-        D=M
-        @13
-        A=M
-        M=D // ram(adrr) =ram(sp)
-        """
+                //\t//{command['type']} {command['segment']} {parameter}
+                @{parameter}
+                D=A
+                @{seg}
+                A=M
+                D=D+A
+                @{seg}
+                M=D
+                @SP
+                M=M-1
+                A=M
+                D=M
+                @{seg}
+                A=M
+                M=D
+                @1
+                D=A
+                @{seg}
+                A=M
+                D=A-D
+                @{seg}
+                M=D
+                """

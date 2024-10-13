@@ -40,7 +40,7 @@ class Translator:
     // pas oublier de remettre a 256
     D=A
     @SP
-    M=D dfjkjfjszk
+    M=D 
 """
 
 

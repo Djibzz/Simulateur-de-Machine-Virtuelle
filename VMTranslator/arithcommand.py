@@ -1,10 +1,15 @@
 class arithcommand:
+    def __init__(self):
+        self.cpt = 0
+        self.classname='Foo'
     def asm(self,command):
         match command['type']:
             case'add':
                 return self._commandadd(command)
             case'sub':
                 return self._commandsub(command)
+            case 'neg':
+                return self._commandneg(command)
             case'eq':
                 return self._commandEQ(command)
             case'gt':
@@ -31,19 +36,27 @@ class arithcommand:
         A=M-1
         M=M-D
         """
+    def _commandneg(self,command):
+        return f"""//neg
+                @SP
+                M=M-1
+                A=M
+                M=-M
+                """
     def _commandEQ(self,command):
-        return f"""" // EQ
+        self.cpt += 1
+        return f""" // EQ
         @SP
         A=M-1
         D=M
         A=A-1
         D=D-M
-        @IF
+        @{self.classname}$IF{self.cpt}
         D;JEQ
         D=0
         @END
         0;JMP
-        (IF)
+        ({self.classname}$IF{self.cpt})
         D=-1
         (END)
         @SP
@@ -52,6 +65,7 @@ class arithcommand:
         M=D
         """
     def _commandGT(self,command):
+        self.cpt += 1
         return f"""
         //GT
         @SP
@@ -61,14 +75,15 @@ class arithcommand:
         A=A-1
         D=M-D // ram(x)
         M=-1  //on met a true de  base
-        @GT
+        @{self.classname}$GT{self.cpt}
         D;JGT // si le reste de x-y est superieur a 0 alors x>y et on skip le code
         @SP
         A=M-1
         M=0
-        (GT)
+        ({self.classname}$GT{self.cpt})
         """
     def _commandLT(self,command):
+        self.cpt += 1
         return f"""
         //LT
         @SP
@@ -78,10 +93,10 @@ class arithcommand:
         A=A-1
         D=M-D
         M=-1
-        @LT
+        @{self.classname}$LT{self.cpt}
         D;JLT// si le reste de x-y est inferieur a 0 alors x<y et on skip le code
         @SP
         A=M-1
         M=0
-        (LT)
+        ({self.classname}$LT{self.cpt})
         """

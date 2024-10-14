@@ -15,6 +15,8 @@ class popcommand:
                 return self._commandpoplocal(command)
             case 'static':
                 return self._commandpopstatic(command)
+            case 'pointer':
+                return self._commandpoppointer(command)
             #case 'temp':
                 #return self._commandpoptemp(command)
             case _:
@@ -72,3 +74,18 @@ class popcommand:
                 @Foo.{parameter}
                 M=D // ram(Foo.i)= ram(ram(sp))
                 """
+    def _commandpoppointer(self,command):
+        parameter = command['parameter']
+        dic = {'this': 'THIS', 'that': 'THAT'}
+        if parameter =='0':
+            seg=dic['this']
+        else:
+            seg=dic['that']
+        return f"""\t//{command['type']} {command['segment']} {parameter}
+        @SP
+        M=M-1
+        A=M
+        D=M
+        @{seg}
+        M=D
+        """

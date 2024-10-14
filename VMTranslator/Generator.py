@@ -50,27 +50,11 @@ class Generator:
                     return self.popcommand.asm(command)
                 case 'Call':
                     return self.commandcall(command)
-                case 'add':
+                case 'add'|'sub'|'eq'|'neg'|'gt'|'lt':
                     return self.arithcommand.asm(command)
-                case 'sub':
-                    return self.arithcommand.asm(command)
-                case 'eq':
-                    return self.arithcommand.asm(command)
-                case 'gt':
-                    return self.arithcommand.asm(command)
-                case 'lt':
-                    return self.arithcommand.asm(command)
-                case 'or':
+                case 'or'|'and'|'not':
                     return self.logiccommand.asm(command)
-                case 'and':
-                    return self.logiccommand.asm(command)
-                case 'not':
-                    return self.logiccommand.asm(command)
-                case'label':
-                    return self.branchingcommand.asm(command)
-                case 'goto':
-                    return self.branchingcommand.asm(command)
-                case 'if-goto':
+                case'label'|'goto'|'if-goto':
                     return self.branchingcommand.asm(command)
                 case _:
                     print(f'SyntaxError : {command}')

@@ -193,3 +193,20 @@ M=M+1
 M=M-1
 A=M
 D=M
+
+push pointer i
+@THIS/THAT
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+
+//pop pointer i
+@SP
+M=M-1
+A=M
+D=M
+@THIS/THAT
+M=D

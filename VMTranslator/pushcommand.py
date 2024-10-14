@@ -19,6 +19,8 @@ class pushcommand:
                 return self._commandpushtemp(command)
             case 'static':
                 return self._commandpushstatic(command)
+            case 'pointer':
+                return self._commandpushpointer(command)
             case _:
                 print(f'SyntaxError: Unknown segment {segment} in command: {command}')
                 exit()
@@ -74,7 +76,7 @@ class pushcommand:
     def _commandpushstatic(self, command):
         parameter = command['parameter']
         return f"""//\t//{command['type']} {command['segment']} {parameter}
-            @Foo.{parameter}
+            @Foo.{parameter} // a corriger plus 
             D=M
             @SP
             A=M // a= ram(sp)
@@ -82,3 +84,19 @@ class pushcommand:
             @SP
             M=M+1
             """
+    def _commandpushpointer(self,command):
+        parameter = command['parameter']
+        dic = {'this': 'THIS', 'that': 'THAT'}
+        if parameter == '0':
+            seg = dic['this']
+        else:
+            seg = dic['that']
+        return f"""\t//{command['type']} {command['segment']} {parameter}
+                @{seg}
+                D=M
+                @SP
+                A=M
+                M=D
+                @SP
+                M=M+1
+                """

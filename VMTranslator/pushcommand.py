@@ -10,11 +10,11 @@ class pushcommand:
             case 'local':
                  return self._commandpushlocal(command)
             case 'this':
-                 return self._commandpushthis(command)
+                 return self._commandpushlocal(command)
             case 'that':
-                 return self._commandpushthat(command)
+                 return self._commandpushlocal(command)
             case 'argument':
-                return self._commandpusharg(command)
+                return self._commandpushlocal(command)
             case 'temp':
                 return self._commandpushtemp(command)
             case 'static':
@@ -38,11 +38,14 @@ class pushcommand:
 
     def _commandpushlocal(self, command):
             parameter = command['parameter']
+            segment = command['segment']
+            dic = {'this': 'THIS', 'local': 'LCL', 'argument': 'ARG', 'that': 'THAT'}
+            seg = dic[segment]
             return f"""
             //\t//{command['type']} {command['segment']} {parameter}
             @{parameter}
             D=A
-            @LCL
+            @{seg}
             A=M
             D=D+A
             A=D
@@ -54,56 +57,6 @@ class pushcommand:
             M=M+1
             """
 
-    def _commandpushthat(self, command):
-            parameter = command['parameter']
-            return f"""//\t//{command['type']} {command['segment']} {parameter}
-            @{parameter}
-            D=A
-            @THAT
-            A=M
-            D=D+A
-            A=D
-            D=M
-            @SP
-            A=M
-            M=D
-            @SP
-            M=M+1
-            """
-
-    def _commandpushthis(self, command):
-            parameter = command['parameter']
-            return f"""//\t//{command['type']} {command['segment']} {parameter}
-            @{parameter}
-            D=A
-            @THIS
-            A=M
-            D=D+A
-            A=D
-            D=M
-            @SP
-            A=M
-            M=D
-            @SP
-            M=M+1
-            """
-
-    def _commandpusharg(self, command):
-            parameter = command['parameter']
-            return f"""//\t//{command['type']} {command['segment']} {parameter}
-            @{parameter}
-            D=A
-            @ARG
-            A=M
-            D=D+A
-            A=D
-            D=M
-            @SP
-            A=M
-            M=D
-            @SP
-            M=M+1
-            """
     def _commandpushtemp(self, command):
         parameter = command['parameter']
         return f"""//\t//{command['type']} {command['segment']} {parameter}

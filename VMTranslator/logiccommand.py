@@ -16,7 +16,7 @@ class logiccommand:
            A=M
            D=M
            A=A-1
-           M=M&&D
+           M=D&M
            """
 
     def _commandOr(self, command):
@@ -27,7 +27,7 @@ class logiccommand:
            A=M
            D=M
            A=A-1
-           M=M||D
+           M=D|M
            """
 
     def _commandNot(self, command):

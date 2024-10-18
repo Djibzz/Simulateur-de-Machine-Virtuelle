@@ -58,7 +58,7 @@ M=M-1
 A=M
 D=M
 A=A-1
-D=M-D // ram(x)
+D=M-D // x-y
 M=-1  //on met a true de  base
 @GT
 D;JGT // si le reste de x-y est superieur a 0 alors x>y et on skip le code
@@ -88,7 +88,7 @@ M=M-1
 A=M
 D=M
 A=A-1
-M=M&&D
+M=D&M
 
 //OR
 @SP
@@ -96,7 +96,7 @@ M=M-1
 A=M
 D=M
 A=A-1
-M=M||D
+M=D|M
 
 //NOT
 @SP
@@ -121,26 +121,12 @@ D;JNE
 
 //pop segment i
 @{parameter}
-D=A 
-@{seg}
-        A=M
-        D=D+A
-        @{seg}
-        M=D
-        @SP
-        M=M-1
-        A=M
-        D=M
-        @{seg}
-        A=M
-        M=D
-        @{parameter}
-        D=A
-        @{seg}
-        A=M
-        D=A-D
-        @{seg}
-        M=D
+D=A
+@{segment}
+D=D+M
+@SP
+M=M-1
+
 
 //push segment i
 @{parameter}
@@ -178,9 +164,7 @@ M=D // ram(Foo.i)= ram(ram(sp))
 
 //push temp i
 @{parameter}
-D=A
-@5
-D=D+M // addr = ram(5)+1
+D=M// addr = ram(5+1)
 @SP
 A=M
 A=M
@@ -193,6 +177,8 @@ M=M+1
 M=M-1
 A=M
 D=M
+@{parameter}
+M=D
 
 push pointer i
 @THIS/THAT
@@ -210,3 +196,13 @@ A=M
 D=M
 @THIS/THAT
 M=D
+
+
+
+
+//pour tester le code mettre 
+ RAM[0] 256,
+ RAM[1] 300,
+ RAM[2] 400, 
+RAM[3] 3000, 
+RAM[4] 3010,

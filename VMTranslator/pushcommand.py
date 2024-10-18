@@ -60,14 +60,13 @@ class pushcommand:
             """
 
     def _commandpushtemp(self, command):
-        parameter = command['parameter']
-        return f"""//\t//{command['type']} {command['segment']} {parameter}
+        par = command['parameter']
+        parameter = int(command['parameter'])+5
+        parameter=str(parameter)
+        return f"""//\t//{command['type']} {command['segment']} {par}
             @{parameter}
-            D=A
-            @5
-            D=D+M // addr = ram(5)+1
+            D=M // addr = ram(5+1)
             @SP
-            A=M
             A=M
             M=D
             @SP

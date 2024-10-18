@@ -17,8 +17,8 @@ class popcommand:
                 return self._commandpopstatic(command)
             case 'pointer':
                 return self._commandpoppointer(command)
-            #case 'temp':
-                #return self._commandpoptemp(command)
+            case 'temp':
+                return self._commandpoptemp(command)
             case _:
                 print(f'SyntaxError: Unknown segment {segment} in command: {command}')
                 exit()
@@ -53,16 +53,16 @@ class popcommand:
         M=D
         """
     def _commandpoptemp(self,command):
-        parameter = command['parameter'] + str(5)
-        return f"""//\t//{command['type']} {command['segment']} {parameter}
-                @{parameter}
-                D=A
-                @5
-                D=D+M // addr = ram(5)+1
+        par= command['parameter']
+        parameter = int(command['parameter']) + 5
+        parameter = str(parameter)
+        return f"""//\t//{command['type']} {command['segment']} {par}
                 @SP
                 M=M-1
                 A=M
-                // à finir de coder
+                D=M
+                @{parameter}
+                M=D
                 """
     def _commandpopstatic(self,command):
         parameter = command['parameter']

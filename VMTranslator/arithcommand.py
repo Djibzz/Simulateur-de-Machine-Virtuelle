@@ -39,8 +39,7 @@ class arithcommand:
     def _commandneg(self,command):
         return f"""//neg
                 @SP
-                M=M-1
-                A=M
+                A=M-1 // on ne decremente pas SP
                 M=-M
                 """
     def _commandEQ(self,command):

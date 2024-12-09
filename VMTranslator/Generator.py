@@ -40,7 +40,7 @@ class Generator:
             # type = push|pop|
             #        add|sub|neg|eq|gt|lt|and|or|not) |
             #        label|goto|if-goto|
-            #        Function|Call|return
+            #        Function|Call|
 
             match type:
                 # Faire une fonction par type de commande

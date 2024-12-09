@@ -75,7 +75,7 @@ class arithcommand:
         D=M-D // ram(x)
         M=-1  //on met a true de  base
         @{self.classname}$GT{self.cpt}
-        D;JGT // si le reste de x-y est superieur a 0 alors x>y et on skip le code
+        D;JGT  // si le reste de x-y est superieur a 0 alors x>y et on skip le code
         @SP
         A=M-1
         M=0
@@ -93,7 +93,7 @@ class arithcommand:
         D=M-D
         M=-1
         @{self.classname}$LT{self.cpt}
-        D;JLT// si le reste de x-y est inferieur a 0 alors x<y et on skip le code
+        D;JLT // si le reste de x-y est inferieur a 0 alors x<y et on skip le code
         @SP
         A=M-1
         M=0

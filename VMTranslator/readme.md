@@ -197,6 +197,120 @@ D=M
 @THIS/THAT
 M=D
 
+//return 
+@LCL
+@D=M  // ca récupère l'adresse indiquée dans LCL (1ere valeur locale / savedFrame+1)
+
+@endFrame
+M=D
+
+@5
+D=A
+@endFrame
+D=M-D           // On  cherche l'indice 5 cases au dessus de endFrame
+@retAddr        // On le stocke dans une autre variable temp
+M=D
+""" self.popcommand({'type': 'pop', 'segment': 'argument', 'parameter': '0'})""""
+//  on return la valeur de la fonction , on réplace les pointers de la frame précédente
+
+@ARG
+D=M+1
+@SP
+M=D
+
+@endFrame
+A=M
+A=A-1           
+D=M
+@THAT
+M=D             // THAT restored
+
+@2
+D=A
+@endFrame
+A=M 
+A=A-D           
+D=M
+@THIS
+M=D             // THIS restored 
+        
+  
+@3
+D=A
+@endFrame
+A=M
+A=A-D           
+D=M
+@ARG            // ARG restored
+M=D
+
+@4
+D=A 
+@endFrame 
+A=M 
+A=A-D       
+D=M
+@LCL           // LCL restored 
+M=D
+
+@retAddr
+A=M
+A=M
+0;JMP
+
+
+//Call
+@appel unique (utiliser le labelcount)
+D=A
+@SP
+A=M
+M=D
+@SP
+M=M+1
+
+@LCL
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+
+@ARG
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+
+@THIS
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+
+@THAT
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+
+
+//Fonction
+parametre = command['parameter']
+function = command['function']
+initia = f"// On initialise {para} variables locales\n"
+
+for i in range(0,int(parametre)):
+     initia= initia + self.pushcommand({'type': 'push', 'segment': 'constant', 'parameter': '0'})
+
+return f""\t//{command['type']} {command['function']} {command['parameter']}"
++elf.branchingcommand.asm({'type': 'label', f'label': function}) +initia
 
 
 

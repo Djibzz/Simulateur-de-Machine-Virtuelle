@@ -101,6 +101,7 @@ class Lexer:
             group = pattern.fullmatch(token)
             if group is None:
                 print(f'SyntaxError (line={self.line}, col={self.col}): {token}')
+                print("error lexer")
                 exit()
             else:
                 return {'line': self.line, 'col': self.col, 'type': group.lastgroup, 'token': token}

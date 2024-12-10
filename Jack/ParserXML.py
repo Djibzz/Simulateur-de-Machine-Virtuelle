@@ -251,6 +251,9 @@ class ParserXML:
         """todo"""
         self.xml.write(f"""</KeyWordConstant>\n""")
 
+    def check(self, attribute, value):
+        return self.lexer.hasNext() and self.lexer.look()[f'{attribute}'] in value
+
     def process(self, str):
         token = self.lexer.next()
         if (token is not None and token['token'] == str):

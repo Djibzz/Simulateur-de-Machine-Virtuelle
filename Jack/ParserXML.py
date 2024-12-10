@@ -62,7 +62,18 @@ class ParserXML:
         subroutineName '(' parameterList ')' subroutineBody
         """
         self.xml.write(f"""<subroutineDec>\n""")
-        """todo"""
+        if self.check('token',{'constructor', 'function','method'}):
+            token =self.lexer.next()['token']
+            self.xml.write(f"""<keyword>{token}</keyword>""")
+            if  token != 'constructor' and self.check('type','keyword'):
+                self.xml.write(f"""<keyword>{self.lexer.next()['token']}</keyword>""")
+            else:
+                self.className()
+            self.subroutineName()
+            self.parameterList()
+            self.subroutineBody()
+        else:
+            self.error(self.lexer.next())
         self.xml.write(f"""</subroutineDec>\n""")
 
     def parameterList(self):

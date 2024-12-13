@@ -20,6 +20,8 @@ class ParserXML:
         self.process('{')
         while self.lexer.hasNext()and self.lexer.look()['token'] in {'static','field'}:
             self.classVarDec()
+        while self.check('token',{'constructor', 'function','method'}):
+            self.subroutineDec()
         self.process('}')
         self.xml.write(f"""</class>\n""")
 
@@ -29,8 +31,8 @@ class ParserXML:
         """
         self.xml.write(f"""<classVarDec>\n""")
         if self.lexer.hasNext() and self.lexer.look()['token'] in {'static','field'}:
-            token=self.lexer.next()
-            self.xml.write(f"""{token['token']}""")
+            token =self.lexer.next()['token']
+            self.xml.write(f"""{token}""")
         else:
             self.error(self.lexer.next())
             print("error Vardec")
@@ -39,6 +41,7 @@ class ParserXML:
         while self.lexer.hasNext() and self.lexer.look()['token']==",":
             self.process(',')
             self.varName()
+        self.process(';')
         self.xml.write(f"""</classVarDec>\n""")
 
     def type(self):
@@ -47,7 +50,8 @@ class ParserXML:
         """
         self.xml.write(f"""<type>\n""")
         if self.lexer.hasNext() and self.lexer.look()['token'] in {'int','char','boolean'}:
-            token=self.lexer.next()
+            token =self.lexer.next()['token']
+            self.xml.write(f"""{token}""")
         elif self.lexer.hasNext() and self.lexer.look()['token'] == 'identifier':
             self.className()
         else:
@@ -62,24 +66,50 @@ class ParserXML:
         subroutineName '(' parameterList ')' subroutineBody
         """
         self.xml.write(f"""<subroutineDec>\n""")
-        """todo"""
+        if self.check('token',{'constructor', 'function','method'}):
+            token =self.lexer.next()['token']
+            self.xml.write(f"""<keyword>{token}</keyword>""")
+            if  token != 'constructor' and self.check('type','keyword'):
+                self.xml.write(f"""<keyword>{self.lexer.next()['token']}</keyword>""")
+            else:
+                self.className()
+            self.subroutineName()
+            self.parameterList()
+            self.subroutineBody()
+        else:
+            self.error(self.lexer.next())
         self.xml.write(f"""</subroutineDec>\n""")
 
     def parameterList(self):
         """
         parameterList: ((type varName) (',' type varName)*)?
         """
+        self.process('(')
         self.xml.write(f"""<parameterList>\n""")
-        """todo"""
+
+        while not self.check('token',')'):
+            if self.check('type',{'keyword','identifier'}):
+                self.type()
+                self.varName()
+                if self.check('token',','):
+                    self.process(',')
+                else:
+                    self.error(self.lexer.next())
+
         self.xml.write(f"""</parameterList>\n""")
+        self.process(')')
 
     def subroutineBody(self):
         """
         subroutineBody: '{' varDec* statements '}'
         """
+        self.process('{')
         self.xml.write(f"""<subroutineBody>\n""")
-        """todo"""
+        while  not self.check('token','}'):
+            self.varDec()
+
         self.xml.write(f"""</subroutineBody>\n""")
+        self.process('}')
 
     def varDec(self):
         """
@@ -107,7 +137,12 @@ class ParserXML:
         subroutineName: identifier
         """
         self.xml.write(f"""<subroutineName>""")
-        """todo"""
+        if self.lexer.hasNext() and self.lexer.look()['type'] == 'identifier':
+            token = self.lexer.next()
+            self.xml.write(token['token'])
+        else:
+            print("error  subroutine Name")
+            self.error(self.lexer.next())
         self.xml.write(f"""</subroutineName>""")
 
     def varName(self):
@@ -239,6 +274,9 @@ class ParserXML:
         self.xml.write(f"""<KeyWordConstant>\n""")
         """todo"""
         self.xml.write(f"""</KeyWordConstant>\n""")
+
+    def check(self,attribute, value):
+        return self.lexer.hasNext() and self.lexer.look()[f'{attribute}'] in value
 
     def process(self, str):
         token = self.lexer.next()

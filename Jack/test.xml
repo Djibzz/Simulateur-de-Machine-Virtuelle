@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?><class>
 <keyword>class</keyword>
-<className>a</className><symbol>{</symbol>
-<classVarDec>
-static<type>
-</type>
-<varName>
-a</varName>
-<symbol>,</symbol>
-<varName>
-b</varName>
-</classVarDec>
+<className>Main</className><symbol>{</symbol>
+<subroutineDec>
+<keyword>function</keyword><keyword>void</keyword><subroutineName>main</subroutineName><symbol>(</symbol>
+<parameterList>
+</parameterList>
+<symbol>)</symbol>
+<symbol>{</symbol>
+<subroutineBody>
+</subroutineBody>
+<symbol>}</symbol>
+</subroutineDec>
 <symbol>}</symbol>
 </class>

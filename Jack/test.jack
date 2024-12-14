@@ -1,5 +1,5 @@
 class Main {
    function void main() {
-      var Array a;
-
+      var Array a,b,c;
+      let a=c;
 }

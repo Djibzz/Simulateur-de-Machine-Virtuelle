@@ -1,0 +1,26 @@
+class PRNG {
+    field int seed;
+
+    /** Constructeur : alloue l'objet */
+    constructor PRNG new() {
+        var PRNG obj;
+        let obj = Memory.alloc(1);
+        return obj;
+    }
+
+    /** Initialise le générateur avec une graine */
+    method void init(int initSeed) {
+        let seed = initSeed;
+        return;
+    }
+
+    /** Génère un entier aléatoire entre 0 et max-1 */
+    method int nextInt(int max) {
+        var int result;
+
+        // Pseudo-générateur linéaire
+        let seed = (seed * 32719 + 3) & 32749;  // Générer un nouveau nombre pseudo-aléatoire
+        let result = seed - (seed / max) * max; // Calcul du reste en Jack
+        return result;
+    }
+}

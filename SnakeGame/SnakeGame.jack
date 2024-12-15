@@ -1,0 +1,79 @@
+class SnakeGame {
+    // Salim
+
+    constructor SnakeGame new() {
+        //Salim
+    }
+
+    method void init() {
+        //Salim
+    }
+
+    method void run() {
+        // Salim
+    }
+
+    method void handleInput() {
+        //Salim
+
+    method void moveSnake() {
+        // Fahd
+
+    method void checkCollision() {
+        // Fahd
+
+    method void drawSnake() {
+        var int i, x, y;
+        do Screen.clearScreen(); // Nettoie l'écran
+        let i = 0;
+
+        while (i < snakeLength * 2) {
+            let x = snake[i];
+            let y = snake[i + 1];
+
+            // Validation des coordonnées
+            if (x < 0) { let x = 0; }
+            if (x > 79) { let x = 79; }
+            if (y < 0) { let y = 0; }
+            if (y > 59) { let y = 59; }
+
+            // Dessiner le segment du serpent
+            do Screen.setColor(true);
+            do Screen.drawRectangle(x * 4, y * 4, x * 4 + 3, y * 4 + 3);
+            let i = i + 2;
+        }
+        return;
+    }
+
+    method void drawFruit() {
+        // Validation des coordonnées du fruit
+        if (fruitX < 0) { let fruitX = 0; }
+        if (fruitX > 79) { let fruitX = 79; }
+        if (fruitY < 0) { let fruitY = 0; }
+        if (fruitY > 59) { let fruitY = 59; }
+
+        // Dessiner le fruit
+        do Screen.setColor(false);
+        do Screen.drawRectangle(fruitX * 4, fruitY * 4, fruitX * 4 + 3, fruitY * 4 + 3);
+        return;
+    }
+
+    method void spawnFruit() {
+        let fruitX = randomGen.nextInt(80); // Génère une position X
+        let fruitY = randomGen.nextInt(60); // Génère une position Y
+        return;
+    }
+
+    method void gameOver() {
+        do Screen.clearScreen();
+        do Screen.drawRectangle(150, 100, 350, 150); // Affiche un message de "Game Over"
+        return;
+    }
+
+    method void delay() {
+        var int i;
+        let i = 0;
+        while (i < 10000) { let i = i + 1; } // Boucle simple pour ralentir le jeu
+        return;
+    }
+}

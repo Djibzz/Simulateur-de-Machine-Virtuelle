@@ -1,20 +1,56 @@
 class SnakeGame {
-    // Salim
+    field Array snake;
+    field int snakeLength;
+    field int fruitX;
+    field int fruitY;
+    field int direction;
+    field boolean running;
+    field PRNG randomGen;
 
     constructor SnakeGame new() {
-        //Salim
+        var SnakeGame obj;
+        let obj = Memory.alloc(1); // Alloue de la mémoire pour l'objet
+        return obj;
     }
 
     method void init() {
-        //Salim
+        let randomGen = PRNG.new(); // Initialise le générateur de nombres aléatoires
+        do randomGen.init(12345);
+        let running = true;
+        let snake = Array.new(40); // Allocation fixe de 40 cases (20 segments)
+        let snakeLength = 3;
+        let snake[0] = 40; // Position initiale
+        let snake[1] = 12;
+        let direction = 1; // Direction initiale : droite
+        do spawnFruit();
+        do drawSnake();
+        do drawFruit();
+        do run();
+        return;
     }
 
     method void run() {
-        // Salim
+        while (running) {
+            do handleInput();
+            do moveSnake();
+            do checkCollision();
+            do drawSnake();
+            do drawFruit();
+            do delay();
+        }
+        do gameOver();
+        return;
     }
 
     method void handleInput() {
-        //Salim
+        var char key;
+        let key = Keyboard.keyPressed();
+        if (key = 130) { if (~(direction = 2)) { let direction = 0; } } // Haut
+        if (key = 131) { if (~(direction = 3)) { let direction = 1; } } // Droite
+        if (key = 132) { if (~(direction = 0)) { let direction = 2; } } // Bas
+        if (key = 133) { if (~(direction = 1)) { let direction = 3; } } // Gauche
+        return;
+    }
 
     method void moveSnake() {
         // Fahd

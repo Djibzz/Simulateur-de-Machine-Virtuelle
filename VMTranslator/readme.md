@@ -1,4 +1,7 @@
-< EXPlICATIONS DU CODE:
+AFIN de faire marcher le vm Translator et le parserXML on doir creer des configurations python. On creer des fichiers test.vm 
+ou test.jack et les choisir comme parametres de scripts
+
+EXPlICATIONS DU CODE ASSEMBLEUR:
 
 // push constant i
 @{parameter}

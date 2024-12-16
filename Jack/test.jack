@@ -1,4 +1,5 @@
-class a{
-static int a,b
+class Main {
+   function void main() {
+      var Array a,b,c;
+      let a=c;
 }
-
